@@ -25,17 +25,18 @@ public class journalEntry {
         return new ArrayList<>(journalEntry.values());
     }
     @PostMapping
+    //@RequestBody is used to send input through body raw
     public String createEntry(@RequestBody JournalEntity journalEntity){
         journalEntry.put(journalEntity.getId(),journalEntity);
         return "Entry Created";
     }
 
     @GetMapping("/id/{myid}")
-    public JournalEntity getEntryById(@PathVariable Long myid){
+    public JournalEntity getEntryById(@PathVariable Long myid){//myid is instance of PathVariable
         return journalEntry.get(myid);
     }
     @DeleteMapping("/id/{myid}")
-    public String deleteEntryById(@PathVariable Long myid){
+    public String deleteEntryById(@PathVariable Long myid){//myid is instance of PathVariable
         journalEntry.remove(myid);
         return "Entry Deleted";
     }
