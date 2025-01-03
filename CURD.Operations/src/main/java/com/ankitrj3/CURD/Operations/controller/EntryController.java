@@ -1,5 +1,6 @@
 package com.ankitrj3.CURD.Operations.controller;
 
+
 import java.util.List;
 
 import java.util.Optional;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ankitrj3.CURD.Operations.Entry.EntityEntry;
 import com.ankitrj3.CURD.Operations.services.EntryService;
 
+
 @RestController
 @RequestMapping("/entry")
 public class EntryController {
@@ -34,18 +36,19 @@ public class EntryController {
         return new ResponseEntity(response,HttpStatus.OK);
     }
 
+    
     @PostMapping
-    public ResponseEntity<EntityEntry> entrySave(@RequestBody EntityEntry entityEntry){
+    public ResponseEntity<?> entrySave(@RequestBody EntityEntry entityEntry){
         try{
-        entryService.saveEntity(entityEntry);
-        return new ResponseEntity(entityEntry,HttpStatus.CREATED);
-        }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+           entryService.saveEntity(entityEntry);
+           return new ResponseEntity<EntityEntry>(entityEntry, HttpStatus.CREATED);
+        } catch (Exception e) {
+           return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<EntityEntry> gettingEntryById(@PathVariable ObjectId id){
+    public ResponseEntity<?> gettingEntryById(@PathVariable ObjectId id){
         Optional<EntityEntry> response = entryService.getEntryById(id);
         if(response.isPresent()){
             return new ResponseEntity<>(response.get(),HttpStatus.OK);
@@ -54,16 +57,15 @@ public class EntryController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteEntry(@PathVariable ObjectId id){
+    public ResponseEntity<?> deleteEntry(@PathVariable ObjectId id){
         entryService.deleteEntity(id);
         return new ResponseEntity<>("Entry Deleted", HttpStatus.OK);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<EntityEntry> updateEntry(@PathVariable ObjectId id, @RequestBody EntityEntry newEntry){
-        Optional<EntityEntry> existingEntry = entryService.getEntryById(id);
-        if(existingEntry.isPresent()){
-            EntityEntry old = existingEntry.get();
+    public ResponseEntity<?> updateEntry(@PathVariable ObjectId id, @RequestBody EntityEntry newEntry){
+        EntityEntry old = entryService.getEntryById(id).orElse(null);
+        if(old != null){
             old.setName(newEntry.getName() != null ? newEntry.getName() : old.getName());
             old.setEmail(newEntry.getEmail() != null ? newEntry.getEmail() : old.getEmail());
             entryService.saveEntity(old);

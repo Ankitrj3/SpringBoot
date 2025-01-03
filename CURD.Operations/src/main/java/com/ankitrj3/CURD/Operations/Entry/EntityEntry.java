@@ -6,7 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.lang.NonNull;
 
+import lombok.Data;
+
 @Document(collection = "entry")
+@Data
 public class EntityEntry {
     @Id
     private ObjectId id;
@@ -14,31 +17,6 @@ public class EntityEntry {
     private String name;
     @NonNull
     private String email;
+   
 
-    // Getter and Setter for id
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-    // Getter and Setter for name
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    // Getter and Setter for email
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

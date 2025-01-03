@@ -17,7 +17,7 @@ public class EntryService {
     public List<EntityEntry>getAll(){
         return entryRepo.findAll();
     }
-    public void saveEntity(EntityEntry entityEntry) {
+    public void saveEntity(EntityEntry entityEntry){
         entryRepo.save(entityEntry);
     }
     public void deleteEntity(ObjectId id) {
